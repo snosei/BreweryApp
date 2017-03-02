@@ -1,0 +1,45 @@
+<table class="table stripped">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Nombre</th>
+        <th>Tipo</th>
+        <th>Precio</th>
+        <th>Stock</th>
+        <!--<th>Fecha de Vencimiento</th>-->
+        <th>Cantidad</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let beer of beers" [class.remark-offer]="beer.offer">
+        <td><img [src]="beer.image" [alt]="beer.name" /></td>
+        <td>{{beer.name}}</td>
+        <td>{{beer.type}}</td>
+        <td>{{beer.price | currency:USD:true}}</td>
+        <td *ngIf="beer.stock > 0">{{beer.stock}}</td>
+        <td *ngIf="beer.stock == 0">0</td>
+        <!--<td>{{beer.date | date:"mediumDate"}}</td>-->
+        <td>
+          <div class="form-group">
+            <input class="inputsm" type="number" [(ngModel)]="beer.quantity" [max]="beer.stock" (keyup)="checkQuantity(beer)"/>
+            <button type="button" class="btn btn-default btn-xs" *ngIf="beer.quantity <= 0" disabled>
+              <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-default btn-xs" (click)="downQuantity(beer)" *ngIf="beer.quantity > 0" >
+              <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-default btn-xs" *ngIf="beer.quantity >= beer.stock" disabled>
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn btn-default btn-xs" (click)="upQuantity(beer)" *ngIf="beer.quantity < beer.stock">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+          </div>
+        </td>
+        <td>
+          <button type="button" class="btn btn-default btn-xs" (click)="addToCart(beer)" *ngIf="beer.stock > 0 && beer.quantity <= beer.stock">Comprar</button>
+          <button type="button" class="btn btn-default btn-xs" (click)="addToCart(beer)" *ngIf="beer.quantity > beer.stock" disabled>Comprar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>

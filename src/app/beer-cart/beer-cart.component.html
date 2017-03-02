@@ -1,0 +1,20 @@
+
+<table class="table stripped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Precio Unitario</th>
+        <th>Cantidad</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let beer of beers">
+        <td>{{beer.name}}</td>
+        <td>{{beer.price | currency:USD:true}}</td>
+        <td>{{beer.quantity}}</td>
+        <td>{{calcSubtotal(beer) | currency:USD:true}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <h2 class="text-right">Total: {{calcTotal() | currency:USD:true}} </h2>
